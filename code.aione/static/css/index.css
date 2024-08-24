@@ -1,0 +1,42 @@
+.logo {
+    height: 50px;
+    width: 50px;
+    margin-left: 5;
+    margin-top: 20;
+
+}
+
+.boxo {
+    padding: 40px;
+    text-align: center;
+}
+
+header {
+    margin-left: 100px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+}
+
+#headnav {
+    text-align: center;
+}
+
+.navbar {
+    border-radius: 20;
+}
+
+.summarize-code {
+    margin-left: -10%;
+}
+
+#login {
+    margin-left: 980px;
+
+}

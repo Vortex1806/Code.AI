@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../static/css/index.css">
+    <title>CodeCraft</title>
+    <style>
+        footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .output-container {
+            background-color: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 60%;
+            border-radius: 20px;
+        }
+
+        #login {
+            margin-left: 10px;
+
+        }
+
+        .output-container {
+            position: relative;
+        }
+
+        .loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <nav class="bg-white border-gray-200 dark:bg-indigo-500">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <a href="{{ url_for('index_endpoint', _external=True) }}" class="flex items-center">
+
+                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Code.AI</span>
+            </a>
+            <div class="flex items-center md:order-2">
+                <span class="px-2 block mr-2 text-white hover:text-gray-900">Hi {{firstname}}</span>
+
+                <button type="button"
+                    class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                    id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
+                    data-dropdown-placement="bottom">
+                    <span class="sr-only">Open user menu</span>
+                    <img class="w-8 h-8 rounded-full" src="{{photoUrl}}" alt="user photo">
+                </button>
+                <!-- Dropdown menu -->
+                <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+                    id="user-dropdown">
+                    <div class="px-4 py-3">
+                        <span class="block text-sm text-gray-900 dark:text-white">{{name}}</span>
+                        <span class="block text-sm  text-gray-500 truncate dark:text-gray-400">{{email}}</span>
+                    </div>
+                    <ul class="py-2" aria-labelledby="user-menu-button">
+                        <li>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
+                        </li>
+                        <li>
+                            <a href="#"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Earnings</a>
+                        </li>
+                        <li>
+                            <a href="{{ url_for('logout_endpoint', _external=True) }}"
+                                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign
+                                out</a>
+                        </li>
+                    </ul>
+                </div>
+                <button data-collapse-toggle="mobile-menu-2" type="button"
+                    class="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                    aria-controls="mobile-menu-2" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+            <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
+                <ul
+                    class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-indigo-500 md:dark:bg-indigo-500 dark:border-gray-700">
+                    <li>
+                        <a href="{{ url_for('index_endpoint', _external=True) }}"
+                            class="mr-2 text-white hover:text-gray-900" aria-current="page">Home</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('codecraftpage_endpoint', _external=True) }}"
+                            class="mr-2 text-white hover:text-gray-900">CodeCraft</a>
+                    </li>
+                    <li>
+                        <a class="mr-2 text-white hover:text-gray-900"
+                            href="{{ url_for('summarizepage_endpoint', _external=True) }}">SummarizeCode</a>
+                    </li>
+                    <li>
+                        <a class="mr-2 text-white hover:text-gray-900"
+                            href="{{ url_for('commentpage_endpoint', _external=True) }}">CommentAI</a>
+                    </li>
+                    <li>
+                        <a class="mr-2 text-white hover:text-gray-900"
+                            href="{{ url_for('transpage_endpoint', _external=True) }}">TransCode</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <section class="text-gray-600 body-font">
+        <div class="container px-5 py-10 mx-auto flex flex-col items-center md:flex-row">
+            <div class="flex flex-col md:pr-10 md:mb-0 mb-6 pr-0 w-full md:w-auto md:text-left text-center">
+                <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">CodeCraft</h2>
+                <h1 class="md:text-3xl text-2xl font-medium title-font text-gray-900">Convert Text to Code
+                </h1>
+            </div>
+            <div class="w-full md:w-100 md:text-left text-center md:mt-0 mt-4">
+                <input type="text" id="hero-field" name="hero-field" class="codecraft-input w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 
+                focus:ring-2 focus:ring-indigo-200 focus:bg-transparent focus:border-indigo-500 
+                text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+            </div>
+            <div class="flex md:ml-20 md:mr-20 mx-auto items-center flex-shrink-0 space-x-4 mt-4">
+
+                <button style="margin-bottom:30px"
+                    class="submit-btn bg-indigo-500 inline-flex mt-4 py-2 px-4 rounded-lg items-center hover:bg-indigo-600 focus:outline-none">
+                    <span class="flex items-start flex-col leading-none">
+                        <span class="title-font font-medium text-white">Submit</span>
+                    </span>
+                </button>
+
+            </div>
+        </div>
+    </section>
+    <section style="display:flex; justify-content:center;">
+        <div style="margin-top:-30px">
+            <select class="language-select bg-gray-100 bg-opacity-50 rounded border border-gray-300 
+        focus:ring-2 focus:ring-indigo-200 focus:bg-transparent focus:border-indigo-500 
+        text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                <option selected disabled>Select Language</option>
+                <option value="C">C</option>
+                <option value="python">Python</option>
+                <option value="cpp">C++</option>
+                <option value="java">Java</option>
+                <option value="javascript">javascript</option>
+            </select>
+        </div>
+    </section>
+    <section class="text-gray-600 body-font">
+        <div class="w-full md:w-1/2 md:pl-8 mb-6 md:mb-0"
+            style="position: absolute; top:50%;left:48%; transform:translate(-50%,-50%)">
+            <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">Output</h2>
+            <textarea
+                class="output-container w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 
+                focus:ring-2 focus:ring-indigo-200 focus:bg-transparent focus:border-indigo-500 
+                text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out h-80 resize-none">
+            </textarea>
+            <div class="loading-indicator text-center">
+                <div role="status">
+                    <svg aria-hidden="true"
+                        class="inline w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                        viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                            fill="currentColor" />
+                        <path
+                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                            fill="currentFill" />
+                    </svg>
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+    <footer class="text-gray-600 body-font">
+        <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
+            <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
+                <span class="ml-3 text-xl">Code.AI</span>
+            </a>
+            <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">©
+                2023 Vorgar Industries
+            </p>
+            <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+                <a class="text-gray-500">
+                    <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        class="w-5 h-5" viewBox="0 0 24 24">
+                        <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
+                    </svg>
+                </a>
+                <a class="ml-3 text-gray-500">
+                    <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        class="w-5 h-5" viewBox="0 0 24 24">
+                        <path
+                            d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z">
+                        </path>
+                    </svg>
+                </a>
+                <a class="ml-3 text-gray-500">
+                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
+                        <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37zm1.5-4.87h.01"></path>
+                    </svg>
+                </a>
+                <a class="ml-3 text-gray-500">
+                    <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="0" class="w-5 h-5" viewBox="0 0 24 24">
+                        <path stroke="none"
+                            d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z">
+                        </path>
+                        <circle cx="4" cy="4" r="2" stroke="none"></circle>
+                    </svg>
+                </a>
+            </span>
+        </div>
+    </footer>
+
+    <script src="../static/js/codecraft.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.4/flowbite.min.js"></script>
+</body>
+
+</html>
